@@ -12,7 +12,7 @@ function Signup() {
     e.preventDefault();
     try {
       await axios.post('http://localhost:5000/api/auth/signup', { username, phoneNumber, password });
-      navigate('/');
+      navigate('/feed');
     } catch (err) {
       console.error(err.response.data);
     }
