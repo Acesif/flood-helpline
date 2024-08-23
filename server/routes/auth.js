@@ -6,9 +6,13 @@ const User = require('../models/User');
 const router = express.Router();
 
 router.post('/signup', async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, phoneNumber, password } = req.body;
   try {
-    const user = new User({ username, email, password });
+    let user = await User.findOne({ phoneNumber });
+    if (user) {
+      return res.status(400).json({ msg: 'User already exists' });
+    }
+    user = new User({ username, phoneNumber, password });
     await user.save();
     res.status(201).json({ message: 'User created successfully' });
   } catch (err) {
@@ -17,9 +21,9 @@ router.post('/signup', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-  const { email, password } = req.body;
+  const { phoneNumber, password } = req.body;
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ phoneNumber });
     if (!user) return res.status(400).json({ message: 'User not found' });
 
     const isMatch = await bcrypt.compare(password, user.password);

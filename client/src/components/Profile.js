@@ -38,7 +38,7 @@ function Profile() {
         {posts.map(post => (
           <div key={post._id}>
             <p>{post.content}</p>
-            <button onClick={() => handleDelete(post._id)}>Delete</button>
+            <button onClick={() => handleDelete(post._id)}>Resolved</button>
           </div>
         ))}
       </div>
