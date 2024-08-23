@@ -5,11 +5,13 @@ import Signup from './components/Signup';
 import Feed from './components/Feed';
 import Profile from './components/Profile';
 import Search from './components/Search';
+import Navbar from './components/Navbar';
 import './App.css'
 
 function App() {
   return (
     <Router>
+      <Navbar /> 
       <div className="App">
         <Routes>
           <Route path="/" element={<Signup />} />

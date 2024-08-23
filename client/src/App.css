@@ -3,7 +3,7 @@
   border: 1px red solid;
   margin-bottom: 5px;
 }
-textarea{
+textarea,input{
   width: 100%;
 }
 button{
