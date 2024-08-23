@@ -64,7 +64,7 @@ function Feed() {
       </form>
       <div>
         {posts.map((post) => (
-          <div key={post._id}>
+          <div className='card' key={post._id}>
             <p>{post.content}</p>
           </div>
         ))}

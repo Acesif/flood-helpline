@@ -4,6 +4,8 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import Feed from './components/Feed';
 import Profile from './components/Profile';
+import Search from './components/Search';
+import './App.css'
 
 function App() {
   return (
@@ -15,6 +17,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/feed" element={<Feed />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/search" element={<Search />} />
         </Routes>
       </div>
     </Router>
