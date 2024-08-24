@@ -85,6 +85,8 @@ function Feed() {
   const [selectedZilla, setSelectedZilla] = useState("");
   const [posts, setPosts] = useState([]);
   const [content, setContent] = useState("");
+  const [contactname, setContactName] = useState("");
+  const [contactnumber, setContactNumber] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -116,6 +118,7 @@ function Feed() {
     } else {
       setAvailableZillas([]);
     }
+    // eslint-disable-next-line
   }, [selectedDivision]);
 
   const handlePost = async (e) => {
@@ -124,7 +127,7 @@ function Feed() {
       const token = localStorage.getItem("token");
       const res = await axios.post(
         "http://localhost:5000/api/posts",
-        { content, selectedZilla },
+        { content, selectedDivision, selectedZilla, contactname, contactnumber },
         {
           headers: { Authorization: token },
         }
@@ -132,6 +135,8 @@ function Feed() {
       setPosts([res.data, ...posts]);
       setContent("");
       setSelectedZilla("");
+      setContactName("");
+      setContactNumber("");
     } catch (err) {
       console.error(err);
     }
@@ -147,10 +152,23 @@ function Feed() {
           placeholder="এখানে লিখুন, আপনি কি সাহায্য চাচ্ছেন ?"
           required
         />
-        <br />
-        <br />
-        <br />
         <div>
+          <label>সাহায্যপ্রার্থীর নাম</label>
+          <input type="text" 
+            value={contactname}
+            onChange={(e) => setContactName(e.target.value)}
+            placeholder="সাহায্যপ্রার্থীর নাম প্রবেশ করুন"
+            required
+          />
+          <label>সাহায্যপ্রার্থীর ফোন নম্বর</label>
+          <input type="text" 
+            maxLength="11"
+            pattern="\d*"
+            value={contactnumber}
+            onChange={(e) => setContactNumber(e.target.value)}
+            placeholder="সাহায্যপ্রার্থীর ফোন নম্বর প্রবেশ করুন"
+            required
+          />
           <label>বিভাগ</label>
           <br />
           <select
@@ -196,7 +214,10 @@ function Feed() {
         {posts.map((post) => (
           <div className="card" key={post._id}>
             <p>{post.content}</p>
+            <p>বিভাগ: {post.division}</p>
             <p>জেলা: {post.zilla}</p>
+            <p>সাহায্যপ্রার্থীর নাম: {post.contactname}</p>
+            <p>সাহায্যপ্রার্থীর ফোন নম্বর: {post.phonenumber}</p>
           </div>
         ))}
       </div>

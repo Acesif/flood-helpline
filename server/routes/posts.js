@@ -28,7 +28,7 @@ router.get("/", async (req, res) => {
     if (content) {
       query.content = { $regex: content, $options: "i" };
     }
-    const posts = await Post.find(query);
+    const posts = await Post.find({});
     res.json(posts);
   } catch (err) {
     res.status(500).json({ error: "Server error" });
@@ -37,12 +37,14 @@ router.get("/", async (req, res) => {
 
 // Create a new post
 router.post("/", auth, async (req, res) => {
-  const { content, selectedZilla } = req.body;
-  // console.log(content, selectedZilla);
+  const { content, selectedDivision, selectedZilla, contactname, contactnumber } = req.body;
   try {
     const post = new Post({
       userId: req.user.userId,
       content,
+      division: selectedDivision,
+      contactname,
+      phonenumber: contactnumber,
       zilla: selectedZilla,
     });
     await post.save();
@@ -97,9 +99,8 @@ router.put("/:id", auth, async (req, res) => {
   }
 });
 
-// stats/count how many post by country
-router.get("/zilla-count", async (req, res) => {
-  // console.log("first")
+// stats/count how many post by zila
+router.get("/zilla-count", async (_, res) => {
   try {
     const zillaCounts = await Post.aggregate([
       {
