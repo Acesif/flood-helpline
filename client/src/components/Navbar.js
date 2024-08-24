@@ -17,7 +17,7 @@ function Navbar() {
           </li>
           <li className="navbar-item">
             <Link to="/feed" className="navbar-link">
-              পোস্ট 
+              পোস্ট
             </Link>
           </li>
           <li className="navbar-item">
