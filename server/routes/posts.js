@@ -1,37 +1,50 @@
-const express = require('express');
-const Post = require('../models/Post');
-const jwt = require('jsonwebtoken');
+const express = require("express");
+const Post = require("../models/Post");
+const jwt = require("jsonwebtoken");
 
 const router = express.Router();
 
 const auth = (req, res, next) => {
-  const token = req.header('Authorization');
-  if (!token) return res.status(401).json({ message: 'Unauthorized' });
+  const token = req.header("Authorization");
+  if (!token) return res.status(401).json({ message: "Unauthorized" });
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
     next();
   } catch (err) {
-    res.status(400).json({ message: 'Invalid token' });
+    res.status(400).json({ message: "Invalid token" });
   }
 };
 
 // Fetch all posts
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const posts = await Post.find();
+    const { zilla, content } = req.query;
+    let query = {};
+    if (zilla) {
+      query.zilla = zilla;
+    }
+    if (content) {
+      query.content = { $regex: content, $options: "i" };
+    }
+    const posts = await Post.find(query);
     res.json(posts);
   } catch (err) {
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: "Server error" });
   }
 });
 
 // Create a new post
-router.post('/', auth, async (req, res) => {
-  const { content } = req.body;
+router.post("/", auth, async (req, res) => {
+  const { content, selectedZilla } = req.body;
+  // console.log(content, selectedZilla);
   try {
-    const post = new Post({ userId: req.user.userId, content });
+    const post = new Post({
+      userId: req.user.userId,
+      content,
+      zilla: selectedZilla,
+    });
     await post.save();
     res.status(201).json(post);
   } catch (err) {
@@ -40,7 +53,7 @@ router.post('/', auth, async (req, res) => {
 });
 
 // Get all posts for a user
-router.get('/user/:userId', auth, async (req, res) => {
+router.get("/user/:userId", auth, async (req, res) => {
   try {
     const posts = await Post.find({ userId: req.params.userId });
     res.json(posts);
@@ -50,30 +63,30 @@ router.get('/user/:userId', auth, async (req, res) => {
 });
 
 // Delete a post
-router.delete('/:id', auth, async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    if (!post) return res.status(404).json({ message: 'Post not found' });
+    if (!post) return res.status(404).json({ message: "Post not found" });
 
     if (post.userId.toString() !== req.user.userId) {
-      return res.status(401).json({ message: 'Unauthorized' });
+      return res.status(401).json({ message: "Unauthorized" });
     }
 
     await post.remove();
-    res.json({ message: 'Post deleted' });
+    res.json({ message: "Post deleted" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
 // Update a post
-router.put('/:id', auth, async (req, res) => {
+router.put("/:id", auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    if (!post) return res.status(404).json({ message: 'Post not found' });
+    if (!post) return res.status(404).json({ message: "Post not found" });
 
     if (post.userId.toString() !== req.user.userId) {
-      return res.status(401).json({ message: 'Unauthorized' });
+      return res.status(401).json({ message: "Unauthorized" });
     }
 
     post.content = req.body.content;
@@ -81,6 +94,32 @@ router.put('/:id', auth, async (req, res) => {
     res.json(post);
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+// stats/count how many post by country
+router.get("/zilla-count", async (req, res) => {
+  // console.log("first")
+  try {
+    const zillaCounts = await Post.aggregate([
+      {
+        $group: {
+          _id: "$zilla",
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          zilla: "$_id",
+          count: 1,
+        },
+      },
+    ]);
+
+    res.json(zillaCounts);
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
   }
 });
 

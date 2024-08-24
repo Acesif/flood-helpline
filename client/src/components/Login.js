@@ -20,11 +20,25 @@ function Login() {
 
   return (
     <div>
-      <h2>Login</h2>
+      <h2>লগ ইন</h2>
       <form onSubmit={handleSubmit}>
-        <input type="text" value={phoneNumber} onChange={(e) => setphoneNumber(e.target.value)} placeholder="phoneNumber" maxLength="11" required />
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
-        <button type="submit">Login</button>
+        <input 
+          type="text" 
+          value={phoneNumber} 
+          onChange={(e) => setphoneNumber(e.target.value)} 
+          placeholder="আপনার ফোন নম্বর" 
+          maxLength="11" 
+          required 
+        />
+        <input 
+          type="password" 
+          value={password} 
+          onChange={(e) => setPassword(e.target.value)} 
+          placeholder="আপনার পাসওয়ার্ড" 
+          required 
+        />
+        <button type="submit">লগ ইন</button>
+        <button onClick={()=>navigate("/signup")}>সাইন আপ</button>
       </form>
     </div>
   );

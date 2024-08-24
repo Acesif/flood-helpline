@@ -25,20 +25,20 @@ function Signup() {
 
   return (
     <div>
-      <h2>Signup</h2>
+      <h2>সাইন আপ</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          placeholder=""
+          placeholder="আপনার নাম প্রবেশ করুন"
           required
         />
         <input
           type="text"
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
-          placeholder="Enter your phone number"
+          placeholder="আপনার ফোন নম্বর প্রবেশ করুন"
           maxLength="11"
           required
         />
@@ -46,10 +46,11 @@ function Signup() {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
+          placeholder="আপনার পাসওয়ার্ড নম্বর প্রবেশ করুন"
           required
         />
-        <button type="submit">Signup</button>
+        <button type="submit">সাইন আপ</button>
+        <button onClick={()=>navigate("/login")}>লগ ইন</button>
       </form>
     </div>
   );

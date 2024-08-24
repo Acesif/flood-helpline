@@ -7,6 +7,7 @@ import Profile from './components/Profile';
 import Search from './components/Search';
 import Navbar from './components/Navbar';
 import './App.css'
+import Heatmap from './components/Heatmap';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/feed" element={<Feed />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/heatmap" element={<Heatmap />} />
         </Routes>
       </div>
     </Router>

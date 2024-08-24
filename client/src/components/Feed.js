@@ -82,6 +82,7 @@ function Feed() {
 
   const [selectedDivision, setSelectedDivision] = useState("");
   const [availableZillas, setAvailableZillas] = useState([]);
+  const [selectedZilla, setSelectedZilla] = useState("");
   const [posts, setPosts] = useState([]);
   const [content, setContent] = useState("");
   const navigate = useNavigate();
@@ -123,13 +124,14 @@ function Feed() {
       const token = localStorage.getItem("token");
       const res = await axios.post(
         "http://localhost:5000/api/posts",
-        { content },
+        { content, selectedZilla },
         {
           headers: { Authorization: token },
         }
       );
       setPosts([res.data, ...posts]);
       setContent("");
+      setSelectedZilla("");
     } catch (err) {
       console.error(err);
     }
@@ -150,6 +152,7 @@ function Feed() {
         <br />
         <div>
           <label>বিভাগ</label>
+          <br />
           <select
             value={selectedDivision}
             onChange={(e) => setSelectedDivision(e.target.value)}
@@ -165,8 +168,14 @@ function Feed() {
             ))}
           </select>
 
+          <br />
           <label>জেলা</label>
-          <select required>
+          <br />
+          <select
+            value={selectedZilla}
+            onChange={(e) => setSelectedZilla(e.target.value)}
+            required
+          >
             <option value="" disabled hidden>
               জেলা নির্বাচন করুন
             </option>
@@ -187,6 +196,7 @@ function Feed() {
         {posts.map((post) => (
           <div className="card" key={post._id}>
             <p>{post.content}</p>
+            <p>জেলা: {post.zilla}</p>
           </div>
         ))}
       </div>
