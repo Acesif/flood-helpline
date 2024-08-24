@@ -3,11 +3,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Feed from './components/Feed';
-import Profile from './components/Profile';
 import Search from './components/Search';
 import Navbar from './components/Navbar';
-import './App.css'
 import Heatmap from './components/Heatmap';
+import UserProfile from './components/UserProfile'
+import './App.css'
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/feed" element={<Feed />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<UserProfile />} />
           <Route path="/search" element={<Search />} />
           <Route path="/heatmap" element={<Heatmap />} />
         </Routes>

@@ -163,7 +163,8 @@ function Feed() {
           <label>সাহায্যপ্রার্থীর ফোন নম্বর</label>
           <input type="text" 
             maxLength="11"
-            pattern="\d*"
+            pattern="\d{11}"
+            inputMode="numeric"
             value={contactnumber}
             onChange={(e) => setContactNumber(e.target.value)}
             placeholder="সাহায্যপ্রার্থীর ফোন নম্বর প্রবেশ করুন"

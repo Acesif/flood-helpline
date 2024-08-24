@@ -19,16 +19,16 @@ const auth = (req, res, next) => {
 
 // Fetch all posts
 router.get("/", async (req, res) => {
+  const { zilla, content } = req.query;
   try {
-    const { zilla, content } = req.query;
-    let query = {};
+    const query = {};
     if (zilla) {
       query.zilla = zilla;
     }
     if (content) {
       query.content = { $regex: content, $options: "i" };
     }
-    const posts = await Post.find({});
+    const posts = await Post.find(query);
     res.json(posts);
   } catch (err) {
     res.status(500).json({ error: "Server error" });

@@ -25,6 +25,11 @@ function Navbar() {
               সার্চ
             </Link>
           </li>
+          <li className="navbar-item">
+            <Link to="/profile" className="navbar-link">
+              UserProfile 
+            </Link>
+          </li>
         </ul>
       </div>
     </nav>
