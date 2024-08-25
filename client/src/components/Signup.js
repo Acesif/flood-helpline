@@ -18,8 +18,8 @@ function Signup() {
         password,
       });
       localStorage.setItem("token", res.data.token);
-      window.location.reload();
       navigate("/feed");
+      window.location.reload();
     } catch (err) {
       console.error(err.response.data);
     }

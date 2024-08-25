@@ -155,7 +155,6 @@ function Feed() {
   }, [navigate]);
 
   useEffect(() => {
-    console.log("selectedDivision ", selectedDivision);
     if (selectedDivision) {
       const divisionIndex = divisions.indexOf(selectedDivision);
       setAvailableZillas(zillasSelect[divisionIndex]);
@@ -172,7 +171,7 @@ function Feed() {
 
       const res = await axios.post(
         "http://localhost:5000/api/posts",
-        { content, selectedZilla },
+        { content, zilla: selectedZilla, division: selectedDivision },
         {
           headers: { Authorization: token },
         }
@@ -181,18 +180,17 @@ function Feed() {
       setPosts([res.data, ...posts]);
       setContent("");
       setSelectedZilla("");
+      setSelectedDivision("একটি নির্বাচন করুন");
     } catch (err) {
       console.error(err);
     }
   };
 
   const handleDivisionChange = (value) => {
-    console.log("Division ", value);
     setSelectedDivision(value);
   };
 
   const handleZillaChange = (value) => {
-    console.log("Zilla ", value);
     setSelectedZilla(value);
   };
 
@@ -205,21 +203,21 @@ function Feed() {
           <label htmlFor="inputContent" style={{ marginBottom: "8px" }}>
             এখানে লিখুন, আপনি কি সাহায্য চাচ্ছেন?:{" "}
           </label>
-          <TextArea rows={4} onChange={(e) => setContent(e.target.value)} required />
+          <TextArea rows={4} onChange={(e) => setContent(e.target.value)} value={content} required />
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
           <label htmlFor="divisionSelect" style={{ marginBottom: "8px" }}>
             বিভাগ:{" "}
           </label>
-          <Select id="divisionSelect" defaultValue="একটি নির্বাচন করুন" onChange={handleDivisionChange} options={divisionsSelect} />
+          <Select id="divisionSelect" defaultValue="একটি নির্বাচন করুন" onChange={handleDivisionChange} options={divisionsSelect} value={selectedDivision} />
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
           <label htmlFor="zillaSelect" style={{ marginBottom: "8px" }}>
             জেলা:{" "}
           </label>
-          <Select id="zillaSelect" onChange={handleZillaChange} options={availableZillas} />
+          <Select id="zillaSelect" onChange={handleZillaChange} options={availableZillas} value={selectedZilla} />
         </div>
 
         <Button type="primary" htmlType="submit" size="large">

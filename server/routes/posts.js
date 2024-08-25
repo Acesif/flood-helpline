@@ -37,16 +37,20 @@ router.get("/", async (req, res) => {
 
 // Create a new post
 router.post("/", auth, async (req, res) => {
-  const { content, selectedDivision, selectedZilla, contactname, contactnumber } = req.body;
+  const { content, division, zilla } = req.body;
+
   try {
     const post = new Post({
       userId: req.user.userId,
       content,
-      division: selectedDivision,
-      contactname,
-      phonenumber: contactnumber,
-      zilla: selectedZilla,
+      division,
+      contactname: req.user.userName,
+      phonenumber: req.user.phoneNumber,
+      zilla,
     });
+
+    console.log("POST ", post);
+
     await post.save();
     res.status(201).json(post);
   } catch (err) {
