@@ -273,7 +273,7 @@ function Search() {
       const query = new URLSearchParams();
       if (zilla) query.append("zilla", zilla);
       if (content) query.append("content", content);
-      const res = await axios.get(`http://localhost:5000/api/posts?${query.toString()}`);
+      const res = await axios.get(`https://flood-helpline-server.vercel.app/api/posts?${query.toString()}`);
       setResults(res.data);
     } catch (err) {
       console.error(err);

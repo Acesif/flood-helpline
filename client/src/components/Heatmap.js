@@ -30,7 +30,7 @@ function Heatmap() {
           return;
         }
 
-        const res = await axios.get("http://localhost:5000/api/posts/zilla-count", {
+        const res = await axios.get("https://flood-helpline-server.vercel.app/api/posts/zilla-count", {
           headers: { Authorization: token },
         });
         setZillas(res.data);
