@@ -141,7 +141,7 @@ function Feed() {
           return;
         }
 
-        const res = await axios.get("http://localhost:5000/api/posts", {
+        const res = await axios.get("https://flood-helpline-server.vercel.app/api/posts", {
           headers: { Authorization: token },
         });
         setPosts(res.data);
@@ -170,7 +170,7 @@ function Feed() {
       const token = localStorage.getItem("token");
 
       const res = await axios.post(
-        "http://localhost:5000/api/posts",
+        "https://flood-helpline-server.vercel.app/api/posts",
         { content, zilla: selectedZilla, division: selectedDivision },
         {
           headers: { Authorization: token },
